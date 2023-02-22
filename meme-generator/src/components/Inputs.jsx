@@ -1,10 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "./Image";
 import memesData from "../memesData";
 
 const Inputs = () => {
+  const [memeImage, setMemeImage] = useState("");
+  let url;
+
   function getData() {
-    console.log(memesData.data.memes[Math.floor(Math.random() * 100)].name);
+    const memesArray = memesData.data.memes;
+    const randomNumber = Math.floor(Math.random() * memesArray.length);
+    url = memesArray[randomNumber].url;
+
+    setMemeImage(url);
+
+    // console.log(memesData.data.memes[Math.floor(Math.random() * 100)].url);
   }
 
   return (
@@ -39,8 +48,9 @@ const Inputs = () => {
           Get a new meme image
         </button>
       </div>
-
-      <Image />
+      <div className="flex align-center mt-4 justify-center">
+        <img src={memeImage} alt="" />
+      </div>
     </div>
   );
 };

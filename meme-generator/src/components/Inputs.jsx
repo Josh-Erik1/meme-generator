@@ -3,17 +3,33 @@ import Image from "./Image";
 import memesData from "../memesData";
 
 const Inputs = () => {
-  const [memeImage, setMemeImage] = useState("");
+  // const [memeImage, setMemeImage] = useState("");
+  const [meme, setMeme] = useState({
+    topText: "",
+    bottomText: "",
+    randomImage: "http://i.imgflip.com/1bij.jpg",
+  });
+
+  const [allMemeImages, setAllMemeImages] = useState(memesData);
   let url;
 
   function getData() {
-    const memesArray = memesData.data.memes;
+    const memesArray = allMemeImages.data.memes;
     const randomNumber = Math.floor(Math.random() * memesArray.length);
-    url = memesArray[randomNumber].url;
+    const url = memesArray[randomNumber].url;
 
-    setMemeImage(url);
+    setMeme((prevMeme) => ({
+      ...prevMeme,
+      randomImage: url,
+    }));
+  }
 
-    // console.log(memesData.data.memes[Math.floor(Math.random() * 100)].url);
+  function handleChange(event) {
+    const { name, value } = event.target;
+    setMeme((prevMeme) => ({
+      ...prevMeme,
+      [name]: value,
+    }));
   }
 
   return (
@@ -21,6 +37,9 @@ const Inputs = () => {
       <div className="grid mx-auto grid-cols-2 gap-4 mt-4 mb-2">
         <input
           type="text"
+          name="topText"
+          value={meme.topText}
+          onChange={handleChange}
           placeholder="Shut up"
           class="mt-1 block  px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
       focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
@@ -31,6 +50,9 @@ const Inputs = () => {
         />
         <input
           type="text"
+          name="bottomText"
+          value={meme.bottomText}
+          onChange={handleChange}
           placeholder="and take my money"
           class="mt-1  blockpx-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
       focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
@@ -48,8 +70,14 @@ const Inputs = () => {
           Get a new meme image
         </button>
       </div>
-      <div className="flex align-center mt-4 justify-center">
-        <img src={memeImage} alt="" />
+      <div className="flex align-center relative mt-4 justify-center">
+        <img src={meme.randomImage} alt="" />
+        <h2 className="absolute text-white outline-slate-900 outline-1 font-extrabold text-[40px]">
+          {meme.topText}
+        </h2>
+        <h2 className="absolute text-white outline-slate-900 outline-1 font-extrabold text-[40px] bottom-3">
+          {meme.bottomText}
+        </h2>
       </div>
     </div>
   );

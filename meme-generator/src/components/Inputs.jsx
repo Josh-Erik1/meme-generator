@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "./Image";
 import memesData from "../memesData";
 
@@ -10,20 +10,33 @@ const Inputs = () => {
     randomImage: "http://i.imgflip.com/1bij.jpg",
   });
 
-  const [allMemeImages, setAllMemeImages] = useState(memesData);
+  // State to receive and store the data from memesData as initial value
+  const [allMemes, setAllMemes] = useState([]);
   let url;
 
+  // Call the data from the API and pass the .data.memes array as the initial allMemes state
+  useEffect(() => {
+    fetch("https://api.imgflip.com/get_memes")
+      .then((res) => res.json())
+      .then((data) => setAllMemes(data.data.memes));
+  }, []);
+
+  console.log(allMemes);
+
+  // This function picks a random image from the images in the data array and assigns the image link to be the value of the meme state(the state being displayed)
   function getData() {
-    const memesArray = allMemeImages.data.memes;
+    const memesArray = allMemes;
     const randomNumber = Math.floor(Math.random() * memesArray.length);
     const url = memesArray[randomNumber].url;
 
+    // assign the random image link to the value of the meme state
     setMeme((prevMeme) => ({
       ...prevMeme,
       randomImage: url,
     }));
   }
 
+  // create a function to run whenever a value in the input is changed
   function handleChange(event) {
     const { name, value } = event.target;
     setMeme((prevMeme) => ({
@@ -32,6 +45,7 @@ const Inputs = () => {
     }));
   }
 
+  // Main element to be rendered
   return (
     <div>
       <div className="grid mx-auto grid-cols-2 gap-4 mt-4 mb-2">
@@ -72,7 +86,7 @@ const Inputs = () => {
       </div>
       <div className="flex align-center relative mt-4 justify-center">
         <img src={meme.randomImage} alt="" />
-        <h2 className="absolute text-white outline-slate-900 outline-1 font-extrabold text-[40px]">
+        <h2 className="absolute text-white drop-shadow-xl decoration-black outline-slate-900 outline-1 font-extrabold   text-[40px]">
           {meme.topText}
         </h2>
         <h2 className="absolute text-white outline-slate-900 outline-1 font-extrabold text-[40px] bottom-3">

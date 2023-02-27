@@ -86,7 +86,7 @@ const Inputs = () => {
       </div>
       <div className="flex align-center relative mt-4 justify-center">
         <img src={meme.randomImage} alt="" />
-        <h2 className="absolute text-white drop-shadow-xl decoration-black outline-slate-900 outline-1 font-extrabold   text-[40px]">
+        <h2 className="absolute text-white drop-shadow-2xl decoration-black outline-slate-900 outline-1 font-extrabold   text-[40px]">
           {meme.topText}
         </h2>
         <h2 className="absolute text-white outline-slate-900 outline-1 font-extrabold text-[40px] bottom-3">
